@@ -2,6 +2,7 @@ const express = require('express');
 const route = express.Router()
 
 const userRoute = require("./user-route")
+const todoRoute = require("./todo-route");
 
 //route default
 route.get("/", (req, res) => {
@@ -9,7 +10,7 @@ route.get("/", (req, res) => {
 })
 
 route.use("/users", userRoute)
-// route.use("/user", userRoute)
+route.use("/todos", todoRoute)
 // route.use("/user", userRoute)
 
 module.exports = route
