@@ -14,6 +14,5 @@ route.get("/", (req, res) => {
 route.use("/auth", authRoute)
 route.use("/users", userRoute)
 route.use("/todos", todoRoute)
-// route.use("/user", userRoute)
 
 module.exports = route
