@@ -9,7 +9,7 @@ const allRoutes = require("./routes")
 const db = require("./config/db")
 
 db.then(() => {
-    console.log("berhasi konek ke mongoDB")
+    console.log("Berhasil Connect Ke MongoDB")
 })
 .catch(() => {
     console.log("gagal konek ke mongoDB")

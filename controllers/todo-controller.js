@@ -18,8 +18,8 @@ module.exports = {
   getTodoById: async (req, res) => {
     try {
       const id = req.params.id;
-      const todo = await Todo.findById(id).populate("userId");
-      res.status(200).json({
+      const todo = await Todo.findById(id).populate("userId", ["name", "email"]);
+      res.status(200).json({  
         message: "Berhasil mendapatkan todo by id",
         data: todo,
       });

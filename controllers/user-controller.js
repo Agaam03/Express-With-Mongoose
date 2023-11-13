@@ -1,5 +1,7 @@
 const Todo = require("../models/todo");
 const User = require("../models/user");
+const bcrypt = require('bcrypt');
+
 
 module.exports = {
   getAllUser: async (req, res) => {
@@ -42,10 +44,12 @@ module.exports = {
   },
   createUser: async (req, res) => {
     try {
-      let data = req.body;
-      await User.create(data);
+      const  { name, email, password } = req.body;
+      const hashedPassword = await bcrypt.hash(password, 10)
+      const user = await User.create({ name, email, password: hashedPassword });
       res.status(200).json({
         message: "Berhasil membuat data user",
+        data: user
       });
     } catch (error) {
         res.status(400).json({ error: error.message });
