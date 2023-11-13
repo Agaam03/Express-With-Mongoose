@@ -12,6 +12,9 @@ Pastikan Anda telah menginstal Node.js, Express, dan Mongoose.
 3. Instal Mongoose dengan perintah `npm install mongoose`.
 4. Siapkan struktur proyek Anda dengan folder, file, dan struktur yang sesuai.
 
+#### Endpoints Login
+- `POST /auth/login`: Membuat pengguna baru.
+
 ### Model User
 
 #### Struktur Data
