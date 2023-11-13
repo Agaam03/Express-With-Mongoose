@@ -16,8 +16,8 @@ route.get("/", getAllUser);
 route.get("/:id", verifyToken, getUserById);
 route.get("/:id/todos", verifyToken, getUserTodos);
 route.post("/", createUser);
-route.delete("/:id", deleteUser);
+route.delete("/:id", verifyToken, deleteUser);
 route.delete("/", deleteAllUser);
-route.put("/:id", editUser);
+route.put("/:id", verifyToken, editUser);
 
 module.exports = route;

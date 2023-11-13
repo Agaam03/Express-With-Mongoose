@@ -1,7 +1,6 @@
 const Todo = require("../models/todo");
 const User = require("../models/user");
-const bcrypt = require('bcrypt');
-
+const bcrypt = require("bcrypt");
 
 module.exports = {
   getAllUser: async (req, res) => {
@@ -33,10 +32,13 @@ module.exports = {
   getUserTodos: async (req, res) => {
     try {
       const id = req.params.id;
-      const todos = await Todo.find({userId : id}).populate("userId", ["name", "email"]);
+      const todos = await Todo.find({ userId: id }).populate("userId", [
+        "name",
+        "email",
+      ]);
       res.status(200).json({
         message: "Berhasil mendapatkan user todos",
-        data: todos
+        data: todos,
       });
     } catch (error) {
       res.status(400).json({ error: error.message });
@@ -44,60 +46,68 @@ module.exports = {
   },
   createUser: async (req, res) => {
     try {
-      const  { name, email, password } = req.body;
-      const hashedPassword = await bcrypt.hash(password, 10)
+      const { name, email, password } = req.body;
+      const hashedPassword = await bcrypt.hash(password, 10);
       const user = await User.create({ name, email, password: hashedPassword });
       res.status(200).json({
         message: "Berhasil membuat data user",
-        data: user
+        data: user,
       });
     } catch (error) {
-        res.status(400).json({ error: error.message });
+      res.status(400).json({ error: error.message });
     }
   },
   editUser: async (req, res) => {
+    const { id } = req.params;
+    const { name, email, password } = req.body;
     try {
-        const user = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
-        if (user) {
-            res.status(200).json({
-                message: "Berhasil mengedit data user",
-                data: user
-              });
-        } else {
-            res.status(404).json({ message: 'User not found' });
-        }
+      const updateFields = { name, email };
+      if (password) {
+        const hashedPassword = await bcrypt.hash(password, 10);
+        updateFields.password = hashedPassword;
+      }
+      const updatedUser = await User.findByIdAndUpdate(id, updateFields, {
+        new: true,
+      });
+      if (updatedUser) {
+        res
+          .status(200)
+          .json({ message: "User updated successfully", data: updatedUser });
+      } else{
+        res.status(404).json({ message: "User not found"});
+      }
     } catch (err) {
-        res.status(500).json({ message: err.message });
+      res.status(500).json({ message: err.message });
     }
   },
   deleteUser: async (req, res) => {
     try {
-        const user = await User.findByIdAndDelete(req.params.id);
-        if (user) {
-            res.status(200).json({
-                message: "Berhasil menghapus data user by id",
-                data: user
-              });
-        } else {
-            res.status(404).json({ message: 'User not found' });
-        }
+      const user = await User.findByIdAndDelete(req.params.id);
+      if (user) {
+        res.status(200).json({
+          message: "Berhasil menghapus data user by id",
+          data: user,
+        });
+      } else {
+        res.status(404).json({ message: "User not found" });
+      }
     } catch (err) {
-        res.status(500).json({ message: err.message });
+      res.status(500).json({ message: err.message });
     }
   },
   deleteAllUser: async (req, res) => {
     try {
-        const user = await User.deleteMany();
-        if (user.deletedCount > 0) {
-            res.status(200).json({
-                message: "Berhasil menghapus semua data user",
-                data: user
-              });
-        } else {
-            res.status(404).json({ message: 'No users to delete' });
-        }
+      const user = await User.deleteMany();
+      if (user.deletedCount > 0) {
+        res.status(200).json({
+          message: "Berhasil menghapus semua data user",
+          data: user,
+        });
+      } else {
+        res.status(404).json({ message: "No users to delete" });
+      }
     } catch (err) {
-        res.status(500).json({ message: err.message });
+      res.status(500).json({ message: err.message });
     }
   },
 };
