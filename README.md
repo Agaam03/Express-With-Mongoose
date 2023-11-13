@@ -13,7 +13,7 @@ Pastikan Anda telah menginstal Node.js, Express, dan Mongoose.
 4. Siapkan struktur proyek Anda dengan folder, file, dan struktur yang sesuai.
 
 #### Endpoints Login
-- `POST /auth/login`: Membuat pengguna baru.
+- `POST /auth/login`: Verifikasi user berdasar email dan password.
 
 ### Model User
 
